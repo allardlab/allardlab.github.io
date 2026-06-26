@@ -1,0 +1,26 @@
+---
+# Only the main Sass file needs front matter, rest is included from site.sass.sass_dir
+sitemap:
+  exclude: true
+---
+@charset "utf-8";
+
+// Project settings — colors, typography, design tokens.
+@import "functions.scss";
+@import "01_settings_colors.scss";
+@import "02_settings_typography.scss";
+@import "12_tokens.scss";
+
+// CSS reset — normalize.css v3.0.2.
+@import "05_normalize.scss";
+
+// Project styles — element base, typography, layout chrome, page-scoped.
+@import "06_typography.scss";
+@import "07_layout.scss";
+@import "08_pages.scss";
+@import "09_elements.scss";
+@import "11_syntax-highlighting.scss";
+
+// Modern layout layer — Grid/Flex primitives + site chrome.
+@import "13_layout_modern.scss";
+@import "14_chrome.scss";

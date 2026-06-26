@@ -1,418 +1,104 @@
 @charset "utf-8";
 /* TOC
 
-- Adjustments: Video Layout
-- Navigation
-- Search
 - Masthead
-- Masthead › small-only
-- Masthead › medium-only
-- Masthead › large-only
-- Masthead › xlarge-up
-- Breadcrumb
-- Meta
-- Jump to top
-- Footer
-- Subfooter
-- CSS-Classes to add margin at top or bottom
-
 */
 
 
-/* Adjustments: Video Layout
+/* Masthead
+
+   The single white-banner masthead that appears on every page above
+   the content. Hidden on mobile (the nav's small-only lab-name link
+   takes its place). Flexbox-centred; responsive minimum height by
+   breakpoint.
 ------------------------------------------------------------------- */
 
-body.video,
-body.video #masthead-no-image-header { background: #000; }
-body.video #masthead-no-image-header { margin-bottom: 60px; }
-body.video h1,
-body.video h2,
-body.video h3,
-body.video h4,
-body.video h5,
-body.video h6,
-body.video p,
-body.video a,
-body.video blockquote:before,
-body.video blockquote:after,
-body.video cite a, { color: #fff; }
-body.video cite a:visited, { color: #fff; }
-body.video cite { color: #fff; }
+.site-masthead {
+    display: none;
+}
 
-
-
-/* Navigation
-------------------------------------------------------------------- */
-
-#navigation {
-    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.2);
-    box-shadow: 0 2px 3px 0 rgba(0,0,0,.2);
-
-    [class^='icon-']:before, [class*=' icon-']:before {
-        margin-right: rem-calc(8);
+@media (min-width: 40em) {
+    .site-masthead {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 12rem; /* ~192px */
+        padding: var(--space-8) var(--space-6);
+        background: var(--color-surface);
+        color: var(--color-surface-fg);
+        box-shadow: inset 0 -3px 0 0 var(--color-accent);
     }
 }
 
-
-
-/* Search
-------------------------------------------------------------------- */
-
-.no-js form#search {
-  display: none;
+@media (min-width: 64em) {
+    .site-masthead { min-height: 14rem; }
 }
 
-
-
-/* Masthead
-------------------------------------------------------------------- */
-
-#masthead {
-    background-color: #ffffff; // set the masthead colors here Jun
+@media (min-width: 90em) {
+    .site-masthead { min-height: 16rem; }
 }
-#masthead-no-image-header {
-    background-color: #ffffff;
-}
-#masthead-with-text {
+
+.site-masthead__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
     text-align: center;
-    font-size: rem-calc(54);
-    font-family: $header-font-family;
-    color: #fff;
-    text-transform: uppercase;
-    text-shadow: 0 2px 3px rgba(0,0,0,.4);
-}
-#masthead-no-image-header {
-    height: 175px;
-}
-#masthead-no-image-header #logo img {
-    margin-top: 60px;
+    text-decoration: none;
+    color: inherit;
+    border: 0;
+
+    &:hover,
+    &:focus,
+    &:visited {
+        color: inherit;
+    }
+
+    &:hover .masthead-title,
+    &:focus .masthead-title {
+        color: var(--color-accent-hover);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 4px;
+    }
 }
 
-.masthead-container {
-    display: table;
-    width: 100%;
-    height: 175px;
-}
-
-.masthead-cell {
-    display: table-cell;
-    width: 100%;
-    vertical-align: middle;
-}
-
-.masthead-content {
-    text-align: center;
-}
+/* Original sizes were tuned so the three text rows have
+   approximately equal rendered width in supria-sans:
+     22.9pt × "ALLARD LAB @ UC IRVINE"            (22 chars)
+     10.0pt × "FOR MATHEMATICAL AND … MODELING OF" (46 chars)
+     14.9pt × "CELL AND BIOMOLECULAR MECHANICS"   (31 chars)
+   Don't change without re-checking the visual balance. */
 
 .masthead-title {
+    font-family: $font-family-sans-serif;
     font-size: 22.9pt;
     font-weight: bold;
     color: black;
-    font-family: supria-sans;
     display: block;
-    margin-bottom: -5px;
+    line-height: 0.7;
+    /* Slight extra breathing room between the title and the subtitle
+       (the flex gap of var(--space-1) alone reads too tight against
+       the 22.9pt title). The subtitle→description gap stays at the
+       flex gap so the second pair is visibly tighter than the first. */
+    margin-bottom: 0.5rem;
+    transition: color .2s;
 }
 
 .masthead-subtitle {
+    font-family: $font-family-sans-serif;
     font-size: 10pt;
     font-weight: bold;
     color: black;
-    font-family: supria-sans;
     display: block;
 }
 
 .masthead-description {
+    font-family: $font-family-sans-serif;
     font-size: 14.9pt;
     font-weight: bold;
     color: black;
-    font-family: supria-sans;
     display: block;
-}
-
-/* Masthead › small-only
-------------------------------------------------------------------- */
-
-@media #{$small-only} {
-    #logo img {
-        display: none;
-    }
-    #masthead {
-        height: 200px;
-    }
-    #masthead-with-pattern {
-        padding: 15px 0;
-    }
-    #masthead-with-background-color {
-        padding: 15px 0;
-    }
-    #masthead-with-text {
-        height: 220px;
-        padding: 30px 0;
-        font-size: rem-calc(36);
-    }
-    #masthead-no-image-header {
-        display: none;
-    }
-}
-
-
-/* Masthead › medium-only
-------------------------------------------------------------------- */
-
-@media #{$medium-only} {
-    #logo img {
-        margin-top: 60px;
-    }
-    #masthead {
-        height: 280px;
-    }
-    #masthead-with-pattern {
-        padding: 20px 0;
-    }
-    #masthead-with-background-color {
-        padding: 20px 0;
-    }
-    #masthead-with-text {
-        padding: 60px 0;
-        height: 300px;
-    }
-}
-
-
-/* Masthead › large-only
-------------------------------------------------------------------- */
-
-@media #{$large-only} {
-    #logo img {
-        margin-top: 80px;
-    }
-    #masthead {
-        height: 310px;
-    }
-    #masthead-with-pattern {
-        padding: 30px 0;
-    }
-    #masthead-with-background-color {
-        padding: 30px 0;
-    }
-    #masthead-with-text {
-        height: 330px;
-        padding: 60px 0;
-    }
-}
-
-
-/* Masthead › xlarge-up
-------------------------------------------------------------------- */
-
-@media #{$xlarge-up} {
-    #logo img {
-        margin-top: 110px;
-    }
-    #masthead {
-        height: 380px;
-    }
-    #masthead-with-pattern {
-        padding: 45px 0;
-    }
-    #masthead-with-background-color {
-        padding: 45px 0;
-    }
-    #masthead-with-text {
-        padding: 95px 0;
-        height: 400px;
-    }
-}
-
-
-#title-image-small {
-    height: 240px;
-}
-#title-image-large {
-    height: 520px;
-}
-#title-image-index-small {
-    height: 120px;
-}
-#title-image-index-large {
-    height: 260px;
-}
-
-
-
-/* Breadcrumb
-------------------------------------------------------------------- */
-
-#breadcrumb {
-    background: scale-color($grey-1, $lightness: 55%);
-    border-top: 1px solid scale-color($grey-1, $lightness: 45%);
-    border-bottom: 1px solid scale-color($grey-1, $lightness: 45%);
-}
-.breadcrumbs>.current {
-  font-weight: bold;
-}
-
-
-/* Meta
-------------------------------------------------------------------- */
-
-#page-meta, #page-meta a {
-    color: $grey-5;
-}
-
-#page-meta .button {
-    background: $grey-5;
-    border: 0;
-}
-#page-meta .button {
-    color: #fff;
-}
-#page-meta .button:hover {
-    background: $primary-color;
-}
-.meta-info p {
-  font-size: rem-calc(13);
-  color: scale-color($grey-1, $lightness: 40%);
-}
-  .meta-info a {
-    text-decoration: underline;
-    color: scale-color($grey-1, $lightness: 40%);
-  }
-  .meta-info a:hover {
-    text-decoration: none;
-    color: $secondary-color;
-  }
-
-
-
-/* Jump to top
-------------------------------------------------------------------- */
-
-#up-to-top {
-    padding: 160px 0 10px 0;
-}
-#up-to-top a {
-    font-size: 24px;
-    padding: 5px;
-    border-radius: 3px;
-}
-#up-to-top a:hover {
-    background: $grey-2;
-}
-
-
-
-/* Footer
-------------------------------------------------------------------- */
-
-#footer-content p,
-#footer-content li {
-    font-size: rem-calc(13);
-    font-weight: 300;
-}
-
-#footer {
-    padding-top: 30px;
-    padding-bottom: 20px;
-    background: $footer-bg;
-    color: $footer-color;
-    }
-
-    #footer a {
-        color: $footer-link-color;
-    }
-    #footer h4,
-    #footer h5 {
-        letter-spacing: 1px;
-        color: #fff;
-        text-transform: uppercase;
-    }
-
-
-
-/* Subfooter
-------------------------------------------------------------------- */
-
-#subfooter {
-    background: $subfooter-bg;
-    color: $subfooter-color;
-    padding-top: 30px;
-}
-
-#subfooter-left ul.inline-list {
-    float: left;
-}
-
-.credits a {
-    color: $subfooter-link-color;
-    border: 0;
-    //text-transform: uppercase;
-    &:hover {
-        color: #fff;
-  }
-}
-
-.social-icons {
-    margin-bottom: 10px !important;
-
-// Beware of SCSS-Syntax here
-  li {
-    padding: 0 0 20px 0;
-  }
-  a {
-    font-size: rem-calc(23);
-    display: block;
-    width: 36px;
-    border-radius: 50%;
-    color: $subfooter-bg;
-    background: $subfooter-color;
-    text-align: center;
-    &:hover {
-      background: $subfooter-bg;
-      color: #fff;
-    }
-  }
-}
-
-
-
-/* CSS-Classes to add margin at top or bottom
-------------------------------------------------------------------- */
-
-.t10 { margin-top: 10px !important; }
-.t15 { margin-top: 15px !important; }
-.t20 { margin-top: 20px !important; }
-.t30 { margin-top: 30px !important; }
-.t50 { margin-top: 50px !important; }
-.t60 { margin-top: 60px !important; }
-.t70 { margin-top: 70px !important; }
-.t80 { margin-top: 80px !important; }
-.t90 { margin-top: 90px !important; }
-
-.b15 { margin-bottom: 15px !important; }
-.b20 { margin-bottom: 20px !important; }
-.b30 { margin-bottom: 30px !important; }
-.b60 { margin-bottom: 60px !important; }
-
-.l15 { margin-left: 15px !important; }
-.r15 { margin-right: 15px !important; }
-
-.pl20 { padding-left: 20px !important; }
-.pr5  { padding-right: 5px !important; }
-.pr10 { padding-right: 10px !important; }
-.pr20 { padding-right: 20px !important; }
-
-//  added by jun
-.peoplewrapper {
-    display: grid;
-    grid-template-columns: 1fr 2fr; 
-    align-items: center;
-    grid-gap: 1em;
-    row-gap: 1em;
-    padding-bottom: 1em;
-}
-.peoplephoto {
-    float:right;
-    margin-left:auto;
-    padding-left:1em;       
 }

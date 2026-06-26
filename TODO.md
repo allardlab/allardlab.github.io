@@ -1,163 +1,51 @@
-# Website Improvement Recommendations
+# Website Improvement TODO
 
-## Overview
-Analysis of index.md, publications.md, and headers.md for best practices, mobile compatibility, and aesthetic improvements.
+Phase 1 (refactor) and Phase 2 (UI modernization) are both done on the `refactor-and-ui-overhaul` branch. The items below are the visible-change items that did not make it into Phase 2 — they are deliberately scoped out because each is a meaningful feature on its own. The Foundation-vs-CSS-Grid question is resolved: the site is on CSS Grid + Flexbox, no framework.
 
----
+## Home page (`index.md`)
 
-## 1. INDEX.MD - Home Page
+- Responsive image handling on `PXL_20230221_052352091~2.jpg` (`srcset`, `sizes`, aspect ratio, `object-fit`).
+- Add a clear value-proposition line above the fold and CTAs to key pages (Publications, People, open positions).
+- Visual hierarchy and visible separators between sections.
 
-### Current Issues
-- No responsive image handling
-- Commented-out Twitter timeline taking up space
-- Missing mobile-first design
-- No visual hierarchy or modern styling
-- Single column layout with no visual interest
+## Publications page (`publications.md`)
 
-### Recommended Improvements
+- Migrate the hand-maintained `<ul class="publist">` into structured `_data/publications.yml`.
+- Group entries by year with sticky year headers.
+- Style preprints vs. journal papers distinctly.
+- Client-side year/keyword filter.
+- Highlight recent / featured publications above the fold.
 
-#### High Priority
-- [ ] **Add responsive image handling**
-  - Implement `srcset` and `sizes` attributes
-  - Add proper aspect ratio and object-fit
-  - Optimize for mobile viewing
+## People page (`people.md`)
 
-- [ ] **Remove dead code**
-  - Delete commented-out Twitter timeline section
-  - Clean up unused HTML structure
+- Migrate the hand-maintained list to `_data/people.yml` with `current`, `photo`, `bio`, `links`.
+- Real `alt` text on every photo; styled initials avatar when no photo exists (drop favicon placeholders).
+- Hover state on people cards.
 
-- [ ] **Add modern CSS styling**
-  - Implement grid/flexbox layout
-  - Add proper typography hierarchy
-  - Include hover effects and transitions
+## Software page (`software.md`)
 
-#### Medium Priority
-- [ ] **Improve mobile layout**
-  - Ensure text is readable on small screens
-  - Add proper spacing and margins
-  - Test on various device sizes
+- Replace the brittle `cdn.jsdelivr.net/github-cards` widget with static cards rendered from `_data/software.yml` (or built at deploy time from the GitHub API). Restyle to match the dark theme.
 
-- [ ] **Add call-to-action elements**
-  - Highlight grad student opportunities
-  - Add contact/collaboration buttons
-  - Link to key pages (publications, people)
+## Science page (`science.md`)
 
-- [ ] **Enhanced visual hierarchy**
-  - Better heading structure
-  - Improved paragraph spacing
-  - Visual separators between sections
+- ✅ Added an `<h1>` ("Research", via `title:` front matter).
+- ✅ Replaced the verbose justified filler with an alternating "zigzag" layout: each paper's Bluesky card pairs with a short research blurb (`.science-row` / `.science-row--flip` in `_08_pages.scss`).
+- ✅ Deduped the Bluesky `embed.js` to a single `async` `<script>` at the end of the page (was one per card).
+- The three blurbs (`Reading the immune signal`, `Building the cell's skeleton`, `The physics of DNA`) are first-draft copy — have Jun review/replace, especially the DNA one (written from the paper's venue, not its abstract).
+- Optional: truly lazy-load the embeds with an IntersectionObserver so `embed.js` only fetches when a card scrolls into view.
+- When the Publications data migration lands, consider sourcing these cards from a `_data/*.yml` "recent papers" list instead of hand-pasting blockquotes.
 
----
+## Cross-page
 
-## 2. PUBLICATIONS.MD - Publications Page
+- Mobile-first audit at 375 / 768 / 1024 / 1440 widths in a real browser.
+- Image optimisation: convert large jpg/png to webp with jpg fallback via `<picture>`. `loading="lazy"` is already on all gallery + content `<img>`s.
+- Lighthouse pass: Accessibility ≥ 95, Performance ≥ 85 on simulated mobile.
+- CI: GitHub Action that runs `bundle exec jekyll build` on every PR.
+- Fix the pre-existing Sass `/` division deprecation warnings in `_sass/_functions.scss` (replace `/` with `math.div`). They don't fail the build today but will break under Dart Sass 2.0.
 
-### Current Issues
-- No CSS styling for publication list
-- Poor typography and hierarchy
-- No responsive design
-- Links and formatting inconsistent
-- No search/filter capability
-- Very long single column layout
-- Inconsistent citation formatting
+## Don't-lose-these footguns
 
-### Recommended Improvements
+If anyone refactors the SCSS again:
 
-#### High Priority
-- [ ] **Add modern CSS styling**
-  - Style the `.publist` class with proper spacing
-  - Improve typography for readability
-  - Add visual separation between entries
-
-- [ ] **Implement year-based grouping**
-  - Group publications by year with headers
-  - Add visual separators between years
-  - Implement collapsible sections for older papers
-
-- [ ] **Responsive grid layout**
-  - Two-column layout on desktop
-  - Single column on mobile
-  - Proper spacing and alignment
-
-#### Medium Priority
-- [ ] **Improve typography and hierarchy**
-  - Style paper titles differently (larger, bold)
-  - Consistent author formatting
-  - Better link styling and hover effects
-
-- [ ] **Enhanced publication types**
-  - Different styling for journal vs preprint
-  - Add publication type badges/tags
-  - Highlight recent/featured publications
-
-- [ ] **Add functionality**
-  - Search/filter by year or keyword
-  - Export to BibTeX option
-  - Links to PDF where available
-
-#### Low Priority
-- [ ] **Accessibility improvements**
-  - Better screen reader support
-  - Keyboard navigation
-  - ARIA labels for links
-
----
-
-## 3. HEADERS.MD - Headers Demo Page
-
-### Current Status
-- This appears to be leftover demo page from Jekyll theme
-- Contains theme documentation, not lab content
-- Takes up navigation space unnecessarily
-
-### Recommendation
-- [ ] **REMOVE ENTIRELY**
-  - Delete the file `pages/headers.md`
-  - Remove from navigation if present
-  - This is theme documentation, not relevant to lab website
-
----
-
-## 4. Cross-Page Consistency
-
-### Recommended Standards
-- [ ] **Consistent CSS framework**
-  - Use same grid system across all pages
-  - Standardize spacing and typography
-  - Implement consistent color scheme
-
-- [ ] **Mobile-first approach**
-  - Design for mobile, enhance for desktop
-  - Ensure all interactions work on touch devices
-  - Test across different screen sizes
-
-- [ ] **Performance optimization**
-  - Optimize images for web
-  - Minimize CSS and JavaScript
-  - Implement lazy loading where appropriate
-
----
-
-## Implementation Priority
-
-### Phase 1 (Quick Wins)
-1. Remove headers.md page
-2. Clean up dead code in index.md
-3. Add basic CSS styling to publications.md
-
-### Phase 2 (Major Improvements)
-1. Redesign index.md with responsive layout
-2. Implement year-based grouping for publications
-3. Add modern styling across all pages
-
-### Phase 3 (Enhancements)
-1. Add search/filter functionality
-2. Implement advanced responsive features
-3. Performance optimization
-
----
-
-## Notes
-- Follow the design patterns established in people.md
-- Maintain compatibility with Jekyll and GitHub Pages
-- Test on multiple devices and browsers
-- Consider accessibility requirements throughout
+- The `body { background; color; … }` block in `_sass/_09_elements.scss` is what gives the site its dark theme. Foundation used to provide this; now we own it. Deleting it would silently regress the site to light mode (the symptom we saw immediately post-Phase-2.E).
+- The masthead's `22.9pt / 10pt / 14.9pt` font sizes are manually tuned so the three rows render at approximately equal pixel width in supria-sans. Don't replace with a scaled type-scale or `clamp()` ranges without re-checking visual balance.
