@@ -80,6 +80,14 @@ exclude:
     - README.md
     - INSTALL.md
     - vendor
+    # Node/Astro tooling dirs — present locally but gitignored (never deployed).
+    # Jekyll 4 auto-excludes node_modules; the github-pages gem's Jekyll 3.10 does
+    # not, so list them explicitly or local builds choke on .astro front matter.
+    - node_modules
+    - src
+    - .astro
+    - package.json
+    - package-lock.json
 
 
 # The language setting is used in /includes/header.html for html-settings

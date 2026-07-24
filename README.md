@@ -2,6 +2,16 @@
 
 Source for [allardlab.github.io](https://allardlab.github.io), the Allard Lab website. Jekyll + Sass; layout on CSS Grid + Flexbox; no CSS framework, no client JS except a five-line nav-toggle script.
 
+## Build environment: GitHub Pages / `github-pages` gem
+
+The live site is built by **GitHub Pages using the [`github-pages`](https://pages.github.com/versions/) gem**, which pins **Jekyll 3.10.x** and the **legacy Ruby Sass 3.7.4** engine — not standalone Jekyll 4 / Dart Sass. The `Gemfile` is deliberately pinned to `github-pages` so that `bundle exec jekyll ...` locally reproduces the production build and catches errors before they reach the deploy.
+
+Consequences to remember:
+
+- **Do not "modernize" the SCSS.** Ruby Sass 3.7.4 does not support the Dart Sass module system: `@use`/`@forward` and `math.div()` are fatal syntax errors in production. Keep `/` for division (see `_sass/_functions.scss`). If a newer local toolchain warns about slash-division, that warning is drift, not a bug — ignore it.
+- **Keep the `Gemfile` on `github-pages`.** Switching to `gem 'jekyll'` pulls Jekyll 4 + Dart Sass and makes local builds diverge from production (this masks the errors above).
+- `node_modules`, `src`, and `.astro` are gitignored Node/Astro tooling dirs that never deploy, but Jekyll 3.10 (unlike Jekyll 4) does not auto-exclude `node_modules`, so they are listed under `exclude:` in `_config.yml` to keep local builds working.
+
 ## Repo layout
 
 - [`STATUS.md`](STATUS.md) — architecture: source-of-truth vs compiled, frameworks in use, where the displayed styles come from, design tokens, layout primitives, the page → layout → container-width map, contrast ratios.

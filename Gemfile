@@ -1,12 +1,14 @@
 source 'https://rubygems.org'
 
-ruby '3.3.5'
+# IMPORTANT: The deployed site (allardlab.github.io) is built by GitHub Pages
+# using the `github-pages` gem — NOT standalone Jekyll. That gem pins Jekyll
+# 3.10.x and the legacy Ruby Sass 3.7.4 engine. Building locally with the same
+# gem keeps local output identical to production, so build errors (e.g. SCSS
+# that only the modern Dart Sass understands) surface here instead of failing
+# the deploy. See https://pages.github.com/versions/ for the pinned versions.
+gem 'github-pages', group: :jekyll_plugins
 
-gem 'jekyll'
+# jekyll-gist and jekyll-paginate (referenced in _config.yml) are already
+# bundled by the github-pages gem — no need to declare them separately.
 
-group :jekyll_plugins do
-  gem 'jekyll-gist'
-  gem 'jekyll-paginate'
-end
-
-gem "webrick", "~> 1.7"
+gem 'webrick', '~> 1.7'
