@@ -130,8 +130,18 @@ permalink: "/people/"
 <!-- Right column: photo gallery -->
 <div class="photo-gallery">
 
-<div class="photo-item featured">
-    <img src="{{ site.urlimg }}allardlab_and_friends2024.jpg" alt="Allard Lab and Friends 2024" loading="lazy">
+<h3>2026</h3>
+<div class="photo-grid">
+    <div class="photo-item photo-wide">
+        <img src="{{ site.urlimg }}lab_dinner_2026.jpg" alt="Lab dinner July 2026" loading="lazy">
+    </div>
+</div>
+
+<h3>2025</h3>
+<div class="photo-grid">
+    <div class="photo-item photo-wide">
+        <img src="{{ site.urlimg }}allardlab_and_friends2024.jpg" alt="Allard Lab and Friends 2025" loading="lazy">
+    </div>
 </div>
 
 <h3>2024</h3>
