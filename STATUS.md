@@ -25,9 +25,9 @@ Updated after the Phase 1 refactor and Phase 2 UI modernization on the `refactor
 - **Sass/SCSS**, compressed (`_config.yml`).
 - Plugins: `jekyll-gist`, `jekyll-paginate`.
 - **Adobe Typekit** for the `supria-sans` webfont (`_includes/_head.html`).
-- Ruby `3.3.5` (Gemfile).
+- Ruby `3.3.x` (not pinned in the Gemfile; local dev machine is `3.3.5`, the GitHub Pages builder uses `3.3.4` — a minor mismatch that only produces a warning).
 
-**Build/deploy environment.** Local development uses **Jekyll 4.3.3** (the Gemfile). Production is currently built by GitHub Pages' legacy "Deploy from a branch" builder, which uses the `github-pages` gem's pinned **Jekyll ~3.10.x in safe mode** — *not* the Gemfile. So local ≠ prod until the CI/CD migration in `TODO.md` (Actions-based deploy with our own bundle) lands.
+**Build/deploy environment.** Production is built by GitHub Pages' "Deploy from a branch" builder, which uses the `github-pages` gem's pinned **Jekyll ~3.10.x + Ruby Sass 3.7.4 in safe mode**. As of 2026-07-24 the **Gemfile is pinned to the `github-pages` gem**, so local development reproduces that exact toolchain — `bundle exec jekyll build` locally now matches prod (this replaced the earlier Jekyll 4.3.3 setup, whose drift from prod let a Jekyll-4-only SCSS change pass locally yet break the live build). Consequence: **do not use the Dart Sass module system** (`@use`, `math.div()`) — it is a fatal syntax error under Ruby Sass 3.7.4; keep `/` for division in `_sass/_functions.scss`. See `README.md` and the CI/CD section of `TODO.md`.
 
 The site no longer carries a CSS framework. Foundation 5 was removed in Phase 2.E; layout is implemented directly on CSS Grid and Flexbox in two small partials (`_sass/_13_layout_modern.scss` for primitives, `_sass/_14_chrome.scss` for site chrome).
 
